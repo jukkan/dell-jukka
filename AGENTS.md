@@ -1,6 +1,6 @@
 # Jukka’s Dell
 
-Native Windows personal utility. Read README.md (including “Continue development here”) and VALIDATION.md before changes. README contains the source map and proposed next steps; VALIDATION distinguishes verified behavior from open tests.
+Native Windows personal utility. Read README.md, docs/DEVELOPMENT.md and VALIDATION.md before changes. README is the public-facing product overview; the development guide contains the source map, CLI reference and proposed next steps. VALIDATION distinguishes verified behavior from open tests.
 
 - Source: `src/JukkasDell`; build: Windows PowerShell `./scripts/build.ps1`; read-only validation: `./scripts/test.ps1`. Optional charging integration test: `./scripts/test-charging.ps1 -AllowFirmwareWrite` (records/restores the original mode).
 - Run the Windows SDK, not the WSL runtime, for WPF execution. Publish output lives under ignored `artifacts/app`.
