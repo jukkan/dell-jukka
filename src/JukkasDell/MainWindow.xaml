@@ -1,0 +1,261 @@
+<Window x:Class="JukkasDell.MainWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="Jukka’s Dell" Width="820" Height="720" MinWidth="720" MinHeight="580"
+ Background="#101416" Foreground="#EDF2F3" FontFamily="Segoe UI" FontSize="12"
+ UseLayoutRounding="True" SnapsToDevicePixels="True" WindowStartupLocation="CenterScreen">
+ <Window.Resources>
+  <SolidColorBrush x:Key="Text" Color="#EDF2F3"/>
+  <SolidColorBrush x:Key="Muted" Color="#A3B1B8"/>
+  <SolidColorBrush x:Key="Surface" Color="#181E22"/>
+  <SolidColorBrush x:Key="ControlSurface" Color="#20292E"/>
+  <SolidColorBrush x:Key="Stroke" Color="#303C43"/>
+  <SolidColorBrush x:Key="Accent" Color="#83E3C1"/>
+  <SolidColorBrush x:Key="AccentSurface" Color="#193D34"/>
+  <Style TargetType="TextBlock"><Setter Property="TextWrapping" Value="Wrap"/></Style>
+  <Style x:Key="Small" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="11"/><Setter Property="Foreground" Value="{StaticResource Muted}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+  </Style>
+  <Style x:Key="Label" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="11"/><Setter Property="Foreground" Value="{StaticResource Muted}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/><Setter Property="Margin" Value="0,0,0,6"/>
+  </Style>
+  <Style x:Key="Metric" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="25"/><Setter Property="FontWeight" Value="SemiBold"/>
+   <Setter Property="TextWrapping" Value="NoWrap"/>
+  </Style>
+  <Style x:Key="Card" TargetType="Border">
+   <Setter Property="Background" Value="{StaticResource Surface}"/><Setter Property="CornerRadius" Value="9"/>
+   <Setter Property="Padding" Value="14"/><Setter Property="BorderBrush" Value="{StaticResource Stroke}"/>
+   <Setter Property="BorderThickness" Value="1"/>
+  </Style>
+  <Style TargetType="ToolTip">
+   <Setter Property="Background" Value="#253038"/><Setter Property="Foreground" Value="{StaticResource Text}"/>
+   <Setter Property="BorderBrush" Value="{StaticResource Stroke}"/><Setter Property="Padding" Value="10,7"/>
+   <Setter Property="MaxWidth" Value="340"/>
+  </Style>
+  <Style TargetType="Button">
+   <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+   <Setter Property="Background" Value="{StaticResource ControlSurface}"/><Setter Property="Foreground" Value="{StaticResource Text}"/>
+   <Setter Property="BorderBrush" Value="{StaticResource Stroke}"/><Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Padding" Value="11,7"/><Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+    <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+     BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" Padding="{TemplateBinding Padding}">
+     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+    </Border>
+    <ControlTemplate.Triggers>
+     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Chrome" Property="Opacity" Value="0.8"/></Trigger>
+     <Trigger Property="IsPressed" Value="True"><Setter TargetName="Chrome" Property="Opacity" Value="0.65"/></Trigger>
+     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource Accent}"/></Trigger>
+     <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Chrome" Property="Opacity" Value="0.5"/></Trigger>
+    </ControlTemplate.Triggers>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+  <Style TargetType="ProgressBar">
+   <Setter Property="Foreground" Value="{StaticResource Accent}"/><Setter Property="Background" Value="#2A353C"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ProgressBar">
+    <Grid x:Name="PART_Track">
+     <Border Background="{TemplateBinding Background}" CornerRadius="2"/>
+     <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{TemplateBinding Foreground}" CornerRadius="2"/>
+    </Grid>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+  <Style TargetType="ScrollBar">
+   <Setter Property="MinWidth" Value="0"/>
+   <Setter Property="Width" Value="6"/><Setter Property="Background" Value="Transparent"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ScrollBar">
+    <Track x:Name="PART_Track" Orientation="{TemplateBinding Orientation}" IsDirectionReversed="True"
+     Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value}" ViewportSize="{TemplateBinding ViewportSize}">
+     <Track.DecreaseRepeatButton><RepeatButton Command="ScrollBar.PageUpCommand" Focusable="False"><RepeatButton.Template><ControlTemplate TargetType="RepeatButton"><Border Background="Transparent"/></ControlTemplate></RepeatButton.Template></RepeatButton></Track.DecreaseRepeatButton>
+     <Track.Thumb><Thumb><Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="#46555E" CornerRadius="3" Margin="1,0"/></ControlTemplate></Thumb.Template></Thumb></Track.Thumb>
+     <Track.IncreaseRepeatButton><RepeatButton Command="ScrollBar.PageDownCommand" Focusable="False"><RepeatButton.Template><ControlTemplate TargetType="RepeatButton"><Border Background="Transparent"/></ControlTemplate></RepeatButton.Template></RepeatButton></Track.IncreaseRepeatButton>
+    </Track>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+  <Style TargetType="ScrollViewer">
+   <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ScrollViewer">
+    <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+     <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Margin="{TemplateBinding Padding}"
+      CanContentScroll="{TemplateBinding CanContentScroll}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+     <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="1" Orientation="Vertical" Width="6" MinWidth="0" Margin="3,0,0,0"
+      Minimum="0" Maximum="{TemplateBinding ScrollableHeight}" Value="{TemplateBinding VerticalOffset}" ViewportSize="{TemplateBinding ViewportHeight}"
+      Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+    </Grid>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+  <Style TargetType="Expander">
+   <Setter Property="Foreground" Value="{StaticResource Muted}"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Expander">
+    <StackPanel>
+     <ToggleButton FocusVisualStyle="{x:Null}" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" HorizontalContentAlignment="Stretch" Foreground="{TemplateBinding Foreground}">
+      <ToggleButton.Template><ControlTemplate TargetType="ToggleButton">
+       <Border x:Name="ExpanderChrome" Padding="3,6" Background="Transparent" BorderThickness="1" BorderBrush="Transparent" CornerRadius="4">
+        <DockPanel><TextBlock x:Name="Chevron" Text="›" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"/>
+         <ContentPresenter VerticalAlignment="Center"/>
+        </DockPanel>
+       </Border>
+       <ControlTemplate.Triggers>
+        <Trigger Property="IsChecked" Value="True"><Setter TargetName="Chevron" Property="RenderTransform"><Setter.Value><RotateTransform Angle="90"/></Setter.Value></Setter></Trigger>
+        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="ExpanderChrome" Property="BorderBrush" Value="{StaticResource Accent}"/></Trigger>
+        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ExpanderChrome" Property="Background" Value="{StaticResource ControlSurface}"/></Trigger>
+       </ControlTemplate.Triggers>
+      </ControlTemplate></ToggleButton.Template>
+      <ContentPresenter ContentSource="Header"/>
+     </ToggleButton>
+     <ContentPresenter x:Name="ExpandedContent" Visibility="Collapsed" Margin="3,6,3,0"/>
+    </StackPanel>
+    <ControlTemplate.Triggers><Trigger Property="IsExpanded" Value="True"><Setter TargetName="ExpandedContent" Property="Visibility" Value="Visible"/></Trigger></ControlTemplate.Triggers>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+ </Window.Resources>
+ <DockPanel Margin="18,14">
+  <Grid DockPanel.Dock="Top" Margin="0,0,0,14">
+   <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <StackPanel>
+    <StackPanel Orientation="Horizontal">
+     <Border Background="{StaticResource AccentSurface}" CornerRadius="5" Width="26" Height="26" Margin="0,0,9,0">
+      <TextBlock Text="J" Foreground="{StaticResource Accent}" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+     </Border>
+     <TextBlock Text="Jukka’s Dell" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center"/>
+    </StackPanel>
+    <TextBlock x:Name="DeviceText" Text="Reading laptop details…" Style="{StaticResource Small}" Margin="0,5,0,0"/>
+   </StackPanel>
+   <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+    <Button Content="Copy summary" Click="CopyClick" Margin="0,0,6,0"/>
+    <Button x:Name="RefreshButton" Content="Refresh" ToolTip="Refresh workload and ordinary device readings. Use Read Dell settings for thermal and charging settings." Click="RefreshClick"/>
+   </StackPanel>
+  </Grid>
+  <Grid DockPanel.Dock="Bottom" Margin="0,8,0,0">
+   <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <TextBlock x:Name="UpdateText" Style="{StaticResource Small}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+   <Button Grid.Column="1" Content="Quit" Padding="10,4" Click="QuitClick" ToolTip="Exit the app. Closing the window leaves it in the tray."/>
+  </Grid>
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,0,5,0">
+   <StackPanel>
+    <Border Style="{StaticResource Card}">
+     <StackPanel>
+      <Grid>
+       <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+       <TextBlock Text="THERMAL PROFILE" Style="{StaticResource Label}" Margin="0" VerticalAlignment="Center"/>
+       <Button x:Name="ReadDellButton" Grid.Column="1" Content="Read Dell settings…" Click="ReadDellClick" Padding="9,5"
+        ToolTip="Read the thermal profile and charging settings. Windows may ask for administrator approval."/>
+      </Grid>
+      <UniformGrid Columns="4" x:Name="ProfileButtons" Margin="0,10,0,9">
+       <Button Content="Optimized" Tag="Optimized" Click="ProfileClick" Margin="0,0,5,0" ToolTip="Balances performance, temperature and fan noise."/>
+       <Button Content="Quiet" Tag="Quiet" Click="ProfileClick" Margin="0,0,5,0" ToolTip="Lowers fan and processor speeds; surfaces may feel warmer."/>
+       <Button Content="Cool" Tag="Cool" Click="ProfileClick" Margin="0,0,5,0" ToolTip="Runs fans faster to reduce surface temperature; may be louder."/>
+       <Button Content="Ultra performance" Tag="UltraPerformance" Click="ProfileClick" ToolTip="Raises performance and fan speed; may increase heat and noise."/>
+      </UniformGrid>
+      <TextBlock x:Name="ProfileDescription" Text="Read Dell settings to enable profile switching."/>
+      <TextBlock x:Name="DellObservationText" Style="{StaticResource Small}" Margin="0,4,0,0" Text="Dell settings have not been read."/>
+      <TextBlock x:Name="ActionText" Margin="0,7,0,0" AutomationProperties.LiveSetting="Polite">
+       <TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource Small}">
+        <Setter Property="Foreground" Value="{StaticResource Accent}"/>
+        <Style.Triggers><Trigger Property="Text" Value=""><Setter Property="Visibility" Value="Collapsed"/></Trigger></Style.Triggers>
+       </Style></TextBlock.Style>
+      </TextBlock>
+     </StackPanel>
+    </Border>
+    <Grid Margin="0,10,0,10">
+     <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="10"/><ColumnDefinition/></Grid.ColumnDefinitions>
+     <Border Style="{StaticResource Card}"><Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <StackPanel MinWidth="104"><TextBlock Text="PROCESSOR" Style="{StaticResource Label}"/>
+       <TextBlock x:Name="CpuText" Text="Sampling…" Style="{StaticResource Metric}"/>
+      </StackPanel>
+      <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0">
+       <Canvas x:Name="CpuCanvas" Height="32" ClipToBounds="True" SizeChanged="ChartSizeChanged">
+        <Line X1="0" Y1="31" X2="1000" Y2="31" Stroke="#303C43"/>
+        <Polyline x:Name="CpuLine" Stroke="{StaticResource Accent}" StrokeThickness="1.5"/>
+       </Canvas>
+       <TextBlock Text="Recent CPU use" Style="{StaticResource Small}" Margin="0,4,0,0"/>
+      </StackPanel>
+     </Grid></Border>
+     <Border Grid.Column="2" Style="{StaticResource Card}"><StackPanel>
+      <TextBlock Text="MEMORY" Style="{StaticResource Label}"/>
+      <TextBlock x:Name="MemoryText" Text="Sampling…" FontSize="21" FontWeight="SemiBold"/>
+      <ProgressBar x:Name="MemoryBar" Height="4" Maximum="100" Margin="0,8,0,5"/>
+      <TextBlock x:Name="MemoryDetail" Style="{StaticResource Small}" Text="Physical memory used"/>
+     </StackPanel></Border>
+    </Grid>
+    <Grid>
+     <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="10"/><ColumnDefinition/></Grid.ColumnDefinitions>
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+       <TextBlock Text="BATTERY" Style="{StaticResource Label}"/>
+       <TextBlock x:Name="PowerText" Grid.Column="1" Foreground="{StaticResource Accent}" FontSize="11"/>
+      </Grid>
+      <Grid Margin="0,2,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+       <StackPanel><TextBlock x:Name="ChargeText" Text="—" Style="{StaticResource Metric}"/><TextBlock x:Name="ChargeDetail" Style="{StaticResource Small}" Text="Charge level"/></StackPanel>
+       <StackPanel Grid.Column="1"><TextBlock x:Name="BatteryWattsText" Text="—" FontSize="23" FontWeight="SemiBold" ToolTip="Battery power, not total laptop or charger power."/><TextBlock x:Name="BatteryPowerLabel" Text="Battery power" Style="{StaticResource Small}"/></StackPanel>
+       <StackPanel Grid.Column="2"><TextBlock x:Name="RuntimeText" Text="—" FontSize="20" FontWeight="SemiBold" ToolTip="Estimated runtime from remaining Wh and the most recent minute of discharge. Requires at least 16 seconds of uninterrupted battery readings."/><TextBlock x:Name="RuntimeHint" Text="Est. remaining" Style="{StaticResource Small}"/></StackPanel>
+      </Grid>
+      <TextBlock x:Name="BatteryEstimateDetail" Style="{StaticResource Small}" Text="Reading battery power…"/>
+      <StackPanel Orientation="Horizontal" Margin="0,6,0,4" ToolTip="Capacity retention is a firmware estimate, not a battery diagnosis or lifespan prediction.">
+       <TextBlock Text="Est. retention " Style="{StaticResource Small}"/>
+       <TextBlock x:Name="RetentionText" Text="—" FontWeight="SemiBold" FontSize="11"/>
+       <TextBlock Text=" · cycles " Style="{StaticResource Small}"/>
+       <TextBlock x:Name="CyclesText" Text="—" FontWeight="SemiBold" FontSize="11"/>
+      </StackPanel>
+      <TextBlock x:Name="BatteryDetail" Text="Reading charging mode…" Style="{StaticResource Small}"/>
+      <Expander Header="Charging controls" Margin="0,3,0,0">
+       <StackPanel>
+        <UniformGrid Columns="2" x:Name="ChargingButtons">
+         <Button Content="Adaptive" Tag="Adaptive" Click="ChargingClick" Margin="0,0,5,5" ToolTip="Let Dell firmware adapt charging to usage."/>
+         <Button Content="Standard" Tag="Standard" Click="ChargingClick" Margin="0,0,0,5" ToolTip="Use Dell's standard charging mode."/>
+         <Button Content="Express" Tag="Express" Click="ChargingClick" Margin="0,0,5,0" ToolTip="Use express charging where supported by the firmware and adapter."/>
+         <Button Content="Primarily AC" Tag="PrimAcUse" Click="ChargingClick" ToolTip="Use Dell's charging policy for a laptop mostly connected to external power."/>
+        </UniformGrid>
+        <TextBlock x:Name="ChargingStateText" Style="{StaticResource Small}" Margin="0,7,0,0" Text="Read Dell settings to enable charging controls."/>
+        <TextBlock Text="Mode changes may ask for administrator approval. Custom thresholds remain read-only." Style="{StaticResource Small}" Margin="0,5,0,0"/>
+       </StackPanel>
+      </Expander>
+     </StackPanel></Border>
+     <Border Grid.Column="2" Style="{StaticResource Card}"><StackPanel>
+      <Grid Margin="0,0,0,5"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="52"/><ColumnDefinition Width="65"/></Grid.ColumnDefinitions>
+       <TextBlock Text="WHAT’S BUSY" Style="{StaticResource Label}"/>
+       <TextBlock Grid.Column="1" Text="CPU" Style="{StaticResource Small}" TextAlignment="Right"/>
+       <TextBlock Grid.Column="2" Text="RAM" Style="{StaticResource Small}" TextAlignment="Right"/>
+      </Grid>
+      <ItemsControl x:Name="ProcessList" MinHeight="115">
+       <ItemsControl.ItemTemplate><DataTemplate>
+        <Grid Margin="0,3"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="52"/><ColumnDefinition Width="65"/></Grid.ColumnDefinitions>
+         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" ToolTip="{Binding Name}"/>
+         <TextBlock Grid.Column="1" Text="{Binding Cpu, StringFormat={}{0:F1}%}" TextAlignment="Right" Foreground="{StaticResource Accent}"/>
+         <TextBlock Grid.Column="2" Text="{Binding RamMiB, StringFormat={}{0:F0} MB}" TextAlignment="Right" Foreground="{StaticResource Muted}"/>
+        </Grid>
+       </DataTemplate></ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <TextBlock Text="Accessible processes · WSL is one Windows workload." Style="{StaticResource Small}" Margin="0,7,0,0"
+       ToolTip="Sampled CPU share across all logical processors. Protected processes may be unavailable. WSL appears as one Windows workload."/>
+     </StackPanel></Border>
+    </Grid>
+    <Expander x:Name="ActivityExpander" Header="Recent activity · up to 15 minutes" Expanded="ActivityExpanded" Margin="0,7,0,0">
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <TextBlock x:Name="ActivityRangeText" Style="{StaticResource Small}" Text="History builds while this window is visible."/>
+      <Grid Margin="0,8,0,6"><Grid.ColumnDefinitions><ColumnDefinition Width="94"/><ColumnDefinition/></Grid.ColumnDefinitions>
+       <StackPanel><TextBlock Text="CPU 0–100%" Foreground="{StaticResource Accent}" FontSize="11" Margin="0,10,0,25"/>
+        <TextBlock x:Name="ActivityPowerScale" Text="Battery ±10 W" Foreground="#86BFF5" FontSize="11"/>
+       </StackPanel>
+       <Canvas Grid.Column="1" x:Name="ActivityCanvas" Height="104" ClipToBounds="True" SizeChanged="ActivitySizeChanged"/>
+      </Grid>
+      <TextBlock Text="Battery: + charging / − discharging · separate scales · time runs left to right" Style="{StaticResource Small}"/>
+      <TextBlock x:Name="ActivityEventsText" Style="{StaticResource Small}" Margin="0,6,0,0"/>
+     </StackPanel></Border>
+    </Expander>
+    <Expander Header="Device details &amp; data availability" IsExpanded="False" Margin="0,7,0,0">
+     <StackPanel>
+      <TextBlock x:Name="CapacityDetailText" Style="{StaticResource Small}" Margin="0,0,0,5"/>
+      <TextBlock x:Name="SchemeText" Style="{StaticResource Small}"/>
+      <TextBlock x:Name="DetailsText" Style="{StaticResource Small}" Margin="0,5,0,0"/>
+      <TextBlock Text="CPU temperature / fan RPM unavailable. GPU and SSD sensors are not integrated." Style="{StaticResource Small}" Margin="0,7,0,0"/>
+      <TextBlock x:Name="SourcesText" Style="{StaticResource Small}" Margin="0,7,0,0"/>
+     </StackPanel>
+    </Expander>
+   </StackPanel>
+  </ScrollViewer>
+ </DockPanel>
+</Window>
